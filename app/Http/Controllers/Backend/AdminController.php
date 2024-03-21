@@ -12,14 +12,20 @@ use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     //
+    public function user()
+    {
+        $user = Auth::user();
+        return response()->json(['user' => $user],200);
+    }
     public function signup(SignupRequest $request)
     {
-        $data = $request->validated();
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+        $newUser = $request->only([
+            'name',
+            'email',
+            'role'
         ]);
+        $newUser['password'] = bcrypt($request->input('password'));
+        $user = User::create($newUser);
 
         $token = $user->createToken('qrApp')->plainTextToken;
 

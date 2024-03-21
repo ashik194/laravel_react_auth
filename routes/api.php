@@ -15,16 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 Route::middleware('auth:sanctum')->group( function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::get("/user", [AdminController::class, 'user']);
     Route::post('/logout', [AdminController::class, 'logout']);
-    // Route::apiResource('/users', UserController::class);
 });
 
 Route::post('/login', [AdminController::class, 'login']);
